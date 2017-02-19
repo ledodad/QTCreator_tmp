@@ -3,35 +3,44 @@
 
 using namespace std;
 
-Personnage::Personnage() : m_vie(100), m_mana(100), m_nomArme("Épée rouillée"), m_degatsArme(10)
-{
+Personnage::Personnage() : m_vie(100), m_mana(100)
+   {
     //Rien à mettre dans le corps du constructeur, tout a déjà été fait !
-}
+   }
 
-Personnage::Personnage(int nomArme, int degatsArme) : m_vie(100), m_mana(100),m_nomArme(nomArme), m_degatsArme(degatsArme)
+Personnage::Personnage(string nomArme, int degatsArme) :
+    m_vie(100), m_mana(100),
+    m_arme(nomArme,degatsArme)
+   {
+   }
+Personnage::~Personnage()
 {
 
 }
-Personnage(std::int vie, int mana):m_vie(vie),m_mana(mana),m_nomArme("Épée rouillée"),m_degatsArme(10)
-{
 
-}
+//Personnage::Personnage(std::int vie, int mana):m_vie(vie),m_mana(mana),
+//    m_nomArme("Épée rouillée"),m_degatsArme(10)
+ //  {
+ //  }
 
 void Personnage::recevoirDegats(int nbDegats)
 {
-    m_vie-=m_degatsArme;
-
+    m_vie-=nbDegats;
     if (m_vie < 0) //Pour éviter d'avoir une vie négative
         {
             m_vie = 0; //On met la vie à 0 (cela veut dire mort)
         }
 }
 
+//int Personnage::getDegats() const
+//{
+  //  return m_arme.m_degats;//ERROR:m_degats is private
+//}
+
 void Personnage::attaquer(Personnage &cible)
 {
-    cible.recevoirDegats(m_degatsArme);
+    cible.recevoirDegats(m_arme.getDegats());
 }
-
 
 void Personnage::boirePotionDeVie(int quantitePotion)
     {
@@ -43,17 +52,22 @@ void Personnage::boirePotionDeVie(int quantitePotion)
           }
     }
 
-void Personnage::changerArme(string nomNouvelleArme,int degatsNouvelleArme)
+void Personnage::changerArme(string nomNouvelleArme, int degatsNouvelleArme)
 {
-      m_nomArme=nomNouvelleArme;
-      m_degatsArme=degatsNouvelleArme;
-
+       m_arme.changer(nomNouvelleArme,degatsNouvelleArme);
 }
 
-    bool Personnage::estVivant()
+    bool Personnage::estVivant() const
     {
         return m_vie > 0; //Renvoie true is m_vie > 0 et false sinon.
     }
-    }
+    
+void Personnage::afficherEtat() const
+{
+    cout<<"Vie : "<<m_vie<<endl;
+    cout<<"Mana : "<<m_mana<<endl;
+    m_arme.afficher();
 
-
+    //cout<<getVie() endl<<getMana() endl<<getArme()endl;
+ 
+}
